@@ -802,13 +802,19 @@ function processRequest(req, res, next) {
 
         // Add API Key to params, if any.
         if (apiKey != '' && apiKey != 'undefined' && apiKey != undefined) {
-            if (options.path.indexOf('?') !== -1) {
-                options.path += '&';
+            if (apiConfig.keyHeader) {
+                if (options.headers === void 0) {
+                    options.headers = {};
+                }
+                options.headers[apiConfig.keyHeader] = apiKey;
+            } else {
+                if (options.path.indexOf('?') !== -1) {
+                    options.path += '&';
+                } else {
+                    options.path += '?';
+                }
+                options.path += apiConfig.keyParam + '=' + apiKey;
             }
-            else {
-                options.path += '?';
-            }
-            options.path += apiConfig.keyParam + '=' + apiKey;
         }
 
         // Perform signature routine, if any.
