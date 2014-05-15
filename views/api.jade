@@ -30,9 +30,11 @@ block content
                   - if (apiInfo.oauth || apiInfo.oauth2)
                       label(for='key') Client ID
                   - else
-                    label(for='key') API Key
-                  input(id='key', name='key', value=defaultKey, style='color=#EEEEEE')
-              div
+                      - var apiKeyLabel = 'API Key';
+                      - if (apiInfo.keyHeader) apiKeyLabel += ' (HTTP Header: ' + apiInfo.keyHeader + ')'
+                    label(for='key') #{apiKeyLabel}
+                  input(id='key', name='key', value=defaultKey, style='color=#EEEEEE; width: 40em;')
+        div
                   - if (apiInfo.oauth || apiInfo.oauth2)
                       label(for='secret') Client Secret
                       input(id='secret', name='secret', value=defaultSecret, style='color=#EEEEEE')
